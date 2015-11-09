@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+		
+    	<!-- Onglet MRP II dans la fiche article -->
+    	
+		<record model="ir.ui.view" id="inherit_product_product_form2">
+			<field name="name">product.product.form.inherit2</field>
+			<field name="model">product.product</field>
+			<field name="inherit_id" ref="product.product_normal_form_view"/>
+			<field name="arch" type="xml">
+				<notebook position="inside">
+            		<page string="MRP II">
+        				<group>
+        				<field name="prevision"/>        				       
+	 					<field name="period_type" attrs="{'invisible':[('prevision','=',False)]}"/>
+	 					<field name="lot" attrs="{'invisible':[('prevision','=',False)]}"/>
+                		<field name="ferme_zone" attrs="{'invisible':[('prevision','=',False)]}"/>
+        				</group>   
+	 				</page>
+        		</notebook>		
+			</field>
+		</record>	
+		
+		<!-- Forcast form -->
+		
+        <record id="view_sale_forecast_form" model="ir.ui.view">
+            <field name="name">sale.forecast.form</field>
+            <field name="model">sale.forecast</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Prévisions de vente" version="7.0">
+                   <header>
+                    <button name="create_period" states="draft" string="Générer les périodes" type="object" class="oe_highlight"/>
+                    <button name="button_valid" string="Valider" icon="gtk-ok" states="draft" type="object"/>
+                    <button name="button_draft" string="Mettre en brouillon" icon="gtk-edit" states="done" type="object"/>
+                    <button name="button_cancel" string="Annuler" icon="gtk-stop" states="draft,done" type="object"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,done,cancel"/>                    
+                   </header>
+                   <sheet>
+                    <group>
+                    <field name="name" readonly="1"/>                                
+                    <field name="product_id" required="1" domain="[('prevision','=',True)]"/>                
+                    <field name="date_start" required="1"/>
+                    <field name="date_stop" required="1"/>
+                    </group>
+                  <notebook colspan="4">
+					<page string="Lignes des prévisions">
+						<field name="forecast_line_ids" colspan="4" nolabel="1">
+							<tree string="Lignes des prévisions" editable="bottom" create="false">
+                                    <field name="period" readonly="1"/> 
+                                    <field name="product_qty"/>
+							</tree>
+						</field>
+					</page>
+				 </notebook>
+				 </sheet>	   
+                </form>
+            </field>
+        </record>
+
+        <!-- Forcast tree -->	
+        
+        <record id="view_sale_forecast_tree" model="ir.ui.view">
+            <field name="name">sale.forecast.tree</field>
+            <field name="model">sale.forecast</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Prévisions de vente">
+                    <field name="name" readonly="1"/>            
+                    <field name="product_id"/>
+                    <field name="date_start"/>
+                    <field name="date_stop"/>
+                </tree>
+            </field>
+        </record>
+        
+		<!-- PDP form -->
+		
+        <record id="view_pdp_form" model="ir.ui.view">
+            <field name="name">pdp.form</field>
+            <field name="model">pdp</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Plan Directeur de Production" version="7.0">
+                   <header>
+                    <button name="create_planned_order" string="Générer planned orders" type="object" class="oe_highlight"/>                    
+                   </header>                                
+                   <sheet>
+                    <group>
+                    <field name="name" readonly="1"/>                    
+                    <field name="sale_forecast_id" readonly="1"/>            
+                    <field name="product_id" readonly="1"/>
+                    <field name="stock_initial" readonly="1"/>
+                    <field name="date_start" readonly="1"/>
+                    <field name="date_stop" readonly="1"/>                
+                    </group>
+                  <notebook colspan="4">
+					<page string="Plan Directeur de Production">
+						<field name="pdp_line_ids" colspan="4" nolabel="1">
+							<tree string="Plan Directeur de Production" editable="bottom" create="false">
+                                    <field name="period" readonly="1"/> 
+                                    <field name="forecast_qty"/>
+                                    <field name="stock_qty"/>
+                                    <field name="of_plannifie_qty"/>
+                                    <field name="planned_order_qty"/>
+							</tree>
+							<form string="Plan Directeur de Production" editable="bottom" create="false">
+					                <field name="period" readonly="1"/>
+                                    <field name="forecast_qty"/>
+                                    <field name="stock_qty"/>
+                                    <field name="of_plannifie_qty"/>
+                                    <field name="planned_order_qty"/>
+							</form>
+						</field>
+					</page>
+				 </notebook>
+				 </sheet>	   
+                </form>
+            </field>
+        </record>
+
+        <!-- PDP tree -->	
+        
+        <record id="view_pdp_tree" model="ir.ui.view">
+            <field name="name">pdp.tree</field>
+            <field name="model">pdp</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Plan Directeur de Production">
+                    <field name="name" readonly="1"/>            
+                    <field name="product_id" readonly="1"/>
+                    <field name="stock_initial" readonly="1"/>
+                    <field name="date_start" readonly="1"/>
+                    <field name="date_stop" readonly="1"/> 
+                </tree>
+            </field>
+        </record>
+
+		<!-- CBN form -->
+		
+        <record id="view_cbn_form" model="ir.ui.view">
+            <field name="name">cbn.form</field>
+            <field name="model">cbn</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="CBN" version="7.0">
+                   <header>
+                    <button name="create_cbn_line" string="Générer CBN" type="object" class="oe_highlight"/>                    
+                   </header>                                                           
+                   <sheet>
+                    <group>
+                    <field name="name" readonly="1"/>                                
+                    <field name="product_id"/>
+                    <field name="period_type" readonly="1"/>
+                    <field name="stock_initial"/>
+                    <field name="date_start"/>
+                    <field name="date_stop"/>                
+                    </group>
+                  <notebook colspan="4">
+					<page string="CBN">
+						<field name="cbn_line_ids" colspan="4" nolabel="1">
+							<tree string="CBN" editable="bottom" create="false">
+                                    <field name="period" readonly="1"/> 
+                                    <field name="besoin_brut"/>
+                                    <field name="stock_qty"/>
+                                    <field name="planned_order_qty"/>
+							</tree>
+						</field>
+					</page>
+				 </notebook>
+				 </sheet>	   
+                </form>
+            </field>
+        </record>
+
+        <!-- PDP tree -->	
+        
+        <record id="view_pdp_tree" model="ir.ui.view">
+            <field name="name">pdp.tree</field>
+            <field name="model">pdp</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Plan Directeur de Production">
+                    <field name="name" readonly="1"/>            
+                    <field name="product_id" readonly="1"/>
+                    <field name="stock_initial" readonly="1"/>
+                    <field name="date_start" readonly="1"/>
+                    <field name="date_stop" readonly="1"/> 
+                </tree>
+            </field>
+        </record>
+        
+		<!-- Planned order form -->
+		
+        <record id="view_planned_order_form" model="ir.ui.view">
+            <field name="name">planned.order.form</field>
+            <field name="model">planned.order</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Planned Order" version="7.0">
+                   <header>
+                    <button name="create_mrp_production" string="Générer OF" type="object" class="oe_highlight"/>
+                    <button name="create_ordre_travail" string="Générer OT Prévisionnel" type="object" class="oe_highlight"/>                    
+                   </header>  
+                   <sheet>
+                    <group>
+                    <field name="name" readonly="1"/>                    
+                    <field name="pdp_id"/>                                
+                    <field name="product_id"/>
+                    <field name="qty"/>
+                    <field name="date"/>
+                    <field name="bom_id"/> 
+                    <field name="routing_id"/>
+                    <field name="of_id"/>                
+                    </group>
+				 </sheet>	   
+                </form>
+            </field>
+        </record>
+
+        <!-- Planned order tree -->	
+        
+        <record id="view_planned_order_tree" model="ir.ui.view">
+            <field name="name">planned_order.tree</field>
+            <field name="model">planned.order</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Planned order">
+                    <field name="name" readonly="1"/>            
+                    <field name="pdp_id"/>            
+                    <field name="product_id"/>
+                    <field name="qty"/>
+                    <field name="date"/>
+                    <field name="bom_id"/> 
+                    <field name="routing_id"/>
+                </tree>
+            </field>
+        </record>   
+     
+		<!-- Planned order Calendrier-->
+        <record model="ir.ui.view" id="view_planned_order_calendar">
+            <field name="name">planned_order.calendar</field>
+            <field name="model">planned.order</field>
+            <field name="arch" type="xml">
+                <calendar string="Planned order" date_start="date" color="pdp_id">
+	                    <field name="name"/>
+	                    <field name="date"/>
+	                    <field name="product_id"/>
+	                    <field name="bom_id" />
+                </calendar>
+            </field>
+        </record>        
+ 
+		<!-- Capacity form -->
+		
+        <record id="view_capacity_form" model="ir.ui.view">
+            <field name="name">capacity.form</field>
+            <field name="model">capacity</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Capacité" version="7.0">
+                   <header>
+                    <button name="create_capacity_line" string="Générer capacité" type="object" class="oe_highlight"/>                    
+                   </header>                                                                
+                   <sheet>
+                    <group>
+                    <field name="name"/>
+                    <field name="workcenter_id"/>
+                    <field name="period_type" readonly="1"/>            
+                    <field name="date_start"/>
+                    <field name="date_stop"/>              
+                    </group>
+                  <notebook colspan="4">
+					<page string="Capacité périodique">
+						<field name="capacity_line_ids" colspan="4" nolabel="1">
+							<tree string="Capacité périodique" editable="bottom" create="false" colors="red: ratio &lt; 1">
+                                    <field name="period" readonly="1"/> 
+                                    <field name="capacity"/>
+                                    <field name="demande"/>
+                                    <field name="ratio"/>
+							</tree>
+						</field>
+					</page>
+				 </notebook>
+				 </sheet>	   
+                </form>
+            </field>
+        </record>
+
+        <!-- Capacity tree -->	
+        
+        <record id="view_capacity_tree" model="ir.ui.view">
+            <field name="name">capacity.tree</field>
+            <field name="model">capacity</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Capacité">
+                    <field name="name" readonly="1"/>
+                    <field name="workcenter_id" readonly="1"/>
+                    <field name="period_type" readonly="1"/>            
+                    <field name="date_start" readonly="1"/>
+                    <field name="date_stop" readonly="1"/>
+                </tree>
+            </field>
+        </record>
+
+		<!-- Ordre de travail prévisionnel form -->
+		
+        <record id="view_ordre_travail_form" model="ir.ui.view">
+            <field name="name">ordre.travail.form</field>
+            <field name="model">ordre.travail</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Ordre de travail prévisionnel" version="7.0">                                                                
+                   <sheet>
+                     <group>                 
+                    <group>
+                    <field name="name"/>
+                    <field name="workcenter_id"/>
+                    <field name="planned_order_id"/>
+                    </group>
+					<group>            
+                    <field name="date_planned"/>
+                    <field name="capacity"/>              
+                    </group>
+                    </group>
+				 </sheet>	   
+                </form>
+            </field>
+        </record>
+
+        <!-- Ordre de travail prévisionnel tree -->	
+        
+        <record id="view_ordre_travail_tree" model="ir.ui.view">
+            <field name="name">ordre.travail.tree</field>
+            <field name="model">ordre.travail</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Ordre de travail prévisionnel">
+                    <field name="name"/>
+                    <field name="workcenter_id"/>
+                    <field name="planned_order_id"/>
+                    <field name="date_planned"/>
+                    <field name="capacity"/> 
+                    
+                </tree>
+            </field>
+        </record>
+
+
+		<!-- purchase_requisition_cbn form -->
+		
+        <record id="view_purchase_requisition_cbn_form" model="ir.ui.view">
+            <field name="name">purchase_requisition_cbn.form</field>
+            <field name="model">purchase.requisition.cbn</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="purchase_requisition_cbn" version="7.0"> 
+                   <sheet>
+                    <group>
+                    <field name="name" readonly="1"/>                              
+                    <field name="product_id"/>
+                    <field name="besoin_brut"/>
+                    <field name="date_start"/>
+                    <field name="date_stop"/>                 
+                    </group>
+				 </sheet>	   
+                </form>
+            </field>
+        </record>
+
+        <!-- purchase_requisition_cbn tree -->	
+        
+        <record id="view_purchase_requisition_cbn_tree" model="ir.ui.view">
+            <field name="name">purchase_requisition_cbn.tree</field>
+            <field name="model">purchase.requisition.cbn</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="purchase_requisition_cbn">
+                    <field name="name" readonly="1"/>                              
+                    <field name="product_id"/>
+                    <field name="besoin_brut"/>
+                    <field name="date_start"/>
+                    <field name="date_stop"/> 
+                </tree>
+            </field>
+        </record>
+
+                       
+        <!-- Forcast action -->
+        <record id="action_sale_forecast" model="ir.actions.act_window">
+            <field name="name">Prévisions de vente</field>
+            <field name="res_model">sale.forecast</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+       	<!-- PDP action -->
+        <record id="action_pdp" model="ir.actions.act_window">
+            <field name="name">Plan Directeur de Production</field>
+            <field name="res_model">pdp</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+       	<!-- Planned order action -->
+        <record id="action_planned_order" model="ir.actions.act_window">
+            <field name="name">Planned order</field>
+            <field name="res_model">planned.order</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar</field>
+        </record>
+
+       	<!-- Capacity action -->
+        <record id="action_capacity" model="ir.actions.act_window">
+            <field name="name">Gestion de la capacité</field>
+            <field name="res_model">capacity</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>  
+
+       	<!-- ordre_travail action -->
+        <record id="action_ordre_travail" model="ir.actions.act_window">
+            <field name="name">Ordre de travail prévisionnel</field>
+            <field name="res_model">ordre.travail</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+       	<!-- CBN action -->
+        <record id="action_cbn" model="ir.actions.act_window">
+            <field name="name">CBN</field>
+            <field name="res_model">cbn</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+       	<!-- purchase_requisition_cbn action -->
+        <record id="action_purchase_requisition_cbn" model="ir.actions.act_window">
+            <field name="name">Besoins Bruts</field>
+            <field name="res_model">purchase.requisition.cbn</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+                      
+		<!-- MRP II menu -->
+        <menuitem id="mrp2_root" name="MRP II"  icon="terp-project"/>
+        <menuitem id="mrp2_menu_form" name="MRP II" parent="mrp2_root" sequence="1"/>
+        <menuitem action="action_sale_forecast" id="forcast_id" name="Prévisions de vente" parent="mrp2_menu_form"/>
+        <menuitem action="action_pdp" id="pdp_id" name="Plan Directeur de Production" parent="mrp2_menu_form"/>
+        <menuitem action="action_planned_order" id="planned_order_id" name="Planned order" parent="mrp2_menu_form"/>
+        <menuitem action="action_capacity" id="capacity_id" parent="mrp2_menu_form"/>
+        <menuitem action="action_ordre_travail" id="ordre_travail_id" parent="mrp2_menu_form"/>
+        <menuitem action="action_purchase_requisition_cbn" id="purchase_requisition_cbn_id" parent="mrp2_menu_form"/>
+		<menuitem action="action_cbn" id="cbn_id" parent="mrp2_menu_form"/>        
+
+        <menuitem id="base.menu_product1" name="Produits" parent="mrp2_root" sequence="10"/>
+        <menuitem action="product.product_normal_action_sell" name="Articles" id="product.menu_products1" parent="base.menu_product1" sequence="1"/>
+        <menuitem action="product.product_category_action" name="Articles par catégorie" id="product.menu_products_category1" parent="base.menu_product1" sequence="2"/>	
+				        
+    </data>
+</openerp>

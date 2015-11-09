@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+    <data>
+
+
+       <!-- Sequences sale_forecast -->
+        <record id="seq_type_sale_forecast" model="ir.sequence.type">
+            <field name="name">sale_forecast</field>
+            <field name="code">sale_forecast</field>
+        </record>
+        <record id="seq_sale_forecast" model="ir.sequence">
+            <field name="name">sale_forecast</field>
+            <field name="code">sale_forecast</field>
+            <field name="prefix">PR</field>
+            <field name="padding">5</field>
+        </record> 
+
+       <!-- Sequences pdp -->
+        <record id="seq_type_pdp" model="ir.sequence.type">
+            <field name="name">pdp</field>
+            <field name="code">pdp</field>
+        </record>
+        <record id="seq_pdp" model="ir.sequence">
+            <field name="name">pdp</field>
+            <field name="code">pdp</field>
+            <field name="prefix">PDP</field>
+            <field name="padding">5</field>
+        </record> 
+
+       <!-- Sequences planned_order -->
+        <record id="seq_type_planned_order" model="ir.sequence.type">
+            <field name="name">planned_order</field>
+            <field name="code">planned_order</field>
+        </record>
+        <record id="seq_planned_order" model="ir.sequence">
+            <field name="name">planned_order</field>
+            <field name="code">planned_order</field>
+            <field name="prefix">PO</field>
+            <field name="padding">5</field>
+        </record>
+
+       <!-- Sequences ordre_travail -->
+        <record id="seq_type_ordre_travail" model="ir.sequence.type">
+            <field name="name">ordre_travail</field>
+            <field name="code">ordre_travail</field>
+        </record>
+        <record id="seq_ordre_travail" model="ir.sequence">
+            <field name="name">ordre_travail</field>
+            <field name="code">ordre_travail</field>
+            <field name="prefix">OTP</field>
+            <field name="padding">5</field>
+        </record> 
+
+       <!-- Sequences cbn -->
+        <record id="seq_type_cbn" model="ir.sequence.type">
+            <field name="name">cbn</field>
+            <field name="code">cbn</field>
+        </record>
+        <record id="seq_cbn" model="ir.sequence">
+            <field name="name">cbn</field>
+            <field name="code">cbn</field>
+            <field name="prefix">CBN</field>
+            <field name="padding">5</field>
+        </record>
+
+       <!-- Sequences purchase_requisition_cbn -->
+        <record id="seq_type_purchase_requisition_cbn" model="ir.sequence.type">
+            <field name="name">purchase_requisition_cbn</field>
+            <field name="code">purchase_requisition_cbn</field>
+        </record>
+        <record id="seq_purchase_requisition_cbn" model="ir.sequence">
+            <field name="name">purchase_requisition_cbn</field>
+            <field name="code">purchase_requisition_cbn</field>
+            <field name="prefix">BBR</field>
+            <field name="padding">5</field>
+        </record>       
+    </data>
+</openerp>
